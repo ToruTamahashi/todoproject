@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block header %}
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">TodoList</h1>
+    <p class="lead">Todoリストで毎日を効率化しよう。</p>
+  </div>
+</div>
+{% endblock header %}
+
+{% block content %}
+<!-- containerクラスは幅をいい感じにしてくれる-->
+<div class="container">
+    <!--object_listにはDBの値が入っている。-->
+    <!--loop毎に1行ずつ取り出してitemに入れる-->
+    {% for item in object_list%}
+    
+    <!--<div class="alert alert-secondary" role="alert">-->
+    <div class="alert alert-{{item.priority}}" role="alert">    
+        <p>{{item.title}}　期日：{{item.dudate}}</p>
+        <!-- hrefの中は遷移先のurlとしてurls.pyで指定した名前とforでループごとのprimary_keyが入る(/update/2,みたいな感じになる) -->
+        <a href="{% url 'update' item.pk %}" class="btn btn-info " role="button" aria-pressed="true">編集</a>
+        <a href="{% url 'delete' item.pk %}" class="btn btn-primary " role="button" aria-pressed="true">削除</a>
+        <a href="{% url 'detail' item.pk %}" class="btn btn-success " role="button" aria-pressed="true">詳細</a>
+    </div>
+    {% endfor %}
+    <a href="{% url 'create'  %}" class="btn btn-outline-success " role="button" aria-pressed="true">新規作成</a>
+</div>
+{% endblock content %}
